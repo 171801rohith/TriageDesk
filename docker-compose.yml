@@ -1,0 +1,25 @@
+services:
+  db:
+    image: pgvector/pgvector:pg17
+    environment:
+      POSTGRES_USER: triage
+      POSTGRES_PASSWORD: triage
+      POSTGRES_DB: triagedesk
+    ports: ["5432:5432"]
+    volumes: [pgdata:/var/lib/postgresql/data]
+
+  api:
+    build: .
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql+psycopg://triage:triage@db:5432/triagedesk
+      OLLAMA_BASE_URL: http://host.docker.internal:11434
+    extra_hosts: ["host.docker.internal:host-gateway"]   # needed on Linux
+    ports: ["8000:8000"]
+    depends_on: [db]
+
+volumes:
+  pgdata:
+
+
+
