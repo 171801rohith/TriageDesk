@@ -4,7 +4,6 @@ from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config, pool
 
-# Import every model module so autogenerate sees all tables.
 import app.kb.models
 import app.tickets.models  # noqa: F401
 from alembic import context

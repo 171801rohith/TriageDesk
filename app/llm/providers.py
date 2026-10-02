@@ -8,7 +8,7 @@ This module must not import from any feature package (kb, tickets, triage).
 from langchain_core.embeddings import Embeddings
 from langchain_core.language_models import BaseChatModel
 
-from app.core.config import get_settings  # noqa: F401  (used by the TODO implementations)
+from app.core.config import get_settings
 
 LLM_MAX_RETRIES = 2  # NFR-4
 
@@ -42,9 +42,27 @@ def get_embeddings() -> Embeddings:
 def active_model_info() -> dict[str, str]:
     """Describe the active provider for `/health` and `triage_runs` rows.
 
+    Reads config only — builds no clients, so it works even when the provider is down.
+    The keys must match `HealthOut` fields and `TriageRun` columns (callers unpack it).
+
     Returns:
         ``{"provider": ..., "chat_model": ..., "embedding_model": ...}``
-
-    TODO: read the values from `get_settings()` based on `llm_provider`.
     """
-    raise NotImplementedError("active_model_info")
+    settings = get_settings()
+
+    provider = settings.llm_provider
+    is_gemini = provider == "gemini"
+
+    return {
+        "provider": provider,
+        "chat_model": (
+            settings.gemini_chat_model
+            if is_gemini
+            else settings.ollama_chat_model
+        ),
+        "embedding_model": (
+            settings.gemini_embed_model
+            if is_gemini
+            else settings.ollama_embed_model
+        ),
+    }

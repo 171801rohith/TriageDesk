@@ -1,9 +1,11 @@
 """`GET /health`: DB connectivity + active provider and model names (FR-20)."""
 
+import logging
 from typing import Literal
 
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel
+from sqlalchemy import text
 from sqlalchemy.orm import Session
 
 from app.core.db import get_db
@@ -21,12 +23,17 @@ class HealthOut(BaseModel):
     embedding_model: str
 
 
-def check_db(db: Session) -> Literal["ok", "error"]:
-    """Return "ok" if the database answers, "error" otherwise.
+logger = logging.getLogger(__name__)
 
-    TODO: execute `SELECT 1`; catch exceptions and return "error".
-    """
-    raise NotImplementedError("check_db")
+
+def check_db(db: Session) -> Literal["ok", "error"]:
+    """Return "ok" if the database answers `SELECT 1`, "error" otherwise."""
+    try:
+        db.execute(text("SELECT 1"))
+        return "ok"
+    except Exception:
+        logger.exception("Database health check failed")
+        return "error"
 
 
 @router.get("/health", response_model=HealthOut)

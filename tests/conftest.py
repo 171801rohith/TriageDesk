@@ -8,7 +8,7 @@ import os
 
 # Must be set before any `app.*` import: `app.core.db` builds the engine at import time.
 os.environ.setdefault(
-    "DATABASE_URL", "postgresql+psycopg://triage:triage@localhost:5432/triagedesk_test"
+    "DATABASE_URL", "postgresql+psycopg://triage:triage@localhost:5434/triagedesk_test"
 )
 
 from collections.abc import Callable, Iterator

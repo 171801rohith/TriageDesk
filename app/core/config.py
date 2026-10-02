@@ -1,10 +1,3 @@
-"""Typed application settings loaded from the environment / `.env`.
-
-One place for every knob (provider, model names, thresholds). Switching LLM
-provider is a config change here, never a code change (FR-19, F8).
-See architecture.md §7 for the full variable list.
-"""
-
 from functools import lru_cache
 from typing import Literal
 
@@ -23,8 +16,7 @@ class Settings(BaseSettings):
     llm_provider: Literal["gemini", "ollama"] = "ollama"
 
     # Gemini (GOOGLE_API_KEY is read directly from the env by langchain-google-genai;
-    # it is intentionally NOT a field here so it can never be logged — NFR-6).
-    gemini_chat_model: str = "gemini-3.7-flash"
+    gemini_chat_model: str = "gemini-2.5-flash"
     gemini_embed_model: str = "gemini-embedding-001"
 
     # Ollama
