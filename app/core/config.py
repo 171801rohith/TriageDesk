@@ -1,6 +1,7 @@
 from functools import lru_cache
 from typing import Literal
 
+from pydantic import SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -15,7 +16,10 @@ class Settings(BaseSettings):
     # Provider selection — a typo (e.g. "openai") fails validation at startup.
     llm_provider: Literal["gemini", "ollama"] = "ollama"
 
-    # Gemini (GOOGLE_API_KEY is read directly from the env by langchain-google-genai;
+    # Gemini. The key is a field because pydantic-settings reads `.env` into this
+    # object but does NOT export it to os.environ, where the SDK would look for it.
+    # SecretStr prints as '**********', so it can't leak into logs/reprs (NFR-6).
+    google_api_key: SecretStr | None = None
     gemini_chat_model: str = "gemini-2.5-flash"
     gemini_embed_model: str = "gemini-embedding-001"
 

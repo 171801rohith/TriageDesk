@@ -32,12 +32,25 @@ def evaluate(
     Returns:
         ``("needs_review", reasons)`` if any rule fired, else ``("auto_ready", [])``.
 
-    TODO: one `if` per rule, appending a reason code each time:
-        - priority == "urgent"                         → URGENT_PRIORITY
-        - sentiment == "negative" and priority == "high" → NEGATIVE_HIGH_PRIORITY
-        - draft is None (no chunk passed threshold)    → NO_RELEVANT_KB
-        - draft.confidence < confidence_threshold      → LOW_CONFIDENCE
-        - any cited id not in {c.article_id for c in retrieved} → UNKNOWN_CITATION
-        - draft.reply empty or no citations            → EMPTY_REPLY
+    With no draft, only NO_RELEVANT_KB is reported for the draft rules: the
+    draft-quality checks are about a draft that exists, not one that was skipped.
     """
-    raise NotImplementedError("guardrails.evaluate")
+    reasons: list[str] = []
+
+    if classification.priority == "urgent":
+        reasons.append(URGENT_PRIORITY)
+    if classification.sentiment == "negative" and classification.priority == "high":
+        reasons.append(NEGATIVE_HIGH_PRIORITY)
+
+    if draft is None:
+        reasons.append(NO_RELEVANT_KB)
+    else:
+        if draft.confidence < confidence_threshold:
+            reasons.append(LOW_CONFIDENCE)
+        retrieved_ids = {chunk.article_id for chunk in retrieved}
+        if any(article_id not in retrieved_ids for article_id in draft.cited_article_ids):
+            reasons.append(UNKNOWN_CITATION)  # possible hallucinated citation
+        if not draft.reply.strip() or not draft.cited_article_ids:
+            reasons.append(EMPTY_REPLY)
+
+    return ("needs_review" if reasons else "auto_ready"), reasons

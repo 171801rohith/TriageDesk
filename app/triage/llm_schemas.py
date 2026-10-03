@@ -30,9 +30,14 @@ class Classification(BaseModel):
 class DraftReply(BaseModel):
     """Output of step 3 (FR-10)."""
 
-    reply: str
+    reply: str = Field(
+        description="The complete message to send to the customer, written to them. "
+        "No article ids or scores in it."
+    )
     cited_article_ids: list[int] = Field(description="IDs of passages actually used")
-    confidence: float = Field(ge=0.0, le=1.0)
+    confidence: float = Field(
+        ge=0.0, le=1.0, description="Decimal from 0.0 to 1.0: how fully the passages answer it"
+    )
     missing_info: str | None = None
 
 

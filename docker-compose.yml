@@ -1,12 +1,18 @@
 services:
   db:
     image: pgvector/pgvector:pg17
+    restart: unless-stopped
     environment:
       POSTGRES_USER: triage
       POSTGRES_PASSWORD: triage
       POSTGRES_DB: triagedesk
     ports: ["5434:5432"]   # host 5432 is taken by the native Windows PostgreSQL service
     volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U triage -d triagedesk"]
+      interval: 2s
+      timeout: 3s
+      retries: 15
 
   api:
     build: .
@@ -16,10 +22,9 @@ services:
       OLLAMA_BASE_URL: http://host.docker.internal:11434
     extra_hosts: ["host.docker.internal:host-gateway"]   # needed on Linux
     ports: ["8000:8000"]
-    depends_on: [db]
+    depends_on:
+      db:
+        condition: service_healthy   # migrations must not run before Postgres accepts connections
 
 volumes:
   pgdata:
-
-
-

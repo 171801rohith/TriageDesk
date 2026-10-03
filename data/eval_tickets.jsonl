@@ -1,0 +1,24 @@
+{"subject": "Charged twice this month", "body": "Hi, my card was charged twice for the Pro plan on Sept 3. Please refund one.", "category": "billing", "priority": "medium"}
+{"subject": "Refund request", "body": "I signed up 5 days ago but the product isn't for me. Can I get my money back?", "category": "billing", "priority": "low"}
+{"subject": "Cancel my subscription", "body": "How do I cancel? I don't want to be charged next month.", "category": "billing", "priority": "low"}
+{"subject": "Invoice for my company", "body": "Can you send me an invoice with our VAT number for last month's payment?", "category": "billing", "priority": "low"}
+{"subject": "Charged after I cancelled!!!", "body": "I cancelled two weeks ago and you charged me AGAIN. This is the third time I'm writing. Refund me now or I'm disputing it with my bank.", "category": "billing", "priority": "high"}
+{"subject": "App crashes on login", "body": "Since the latest update the iOS app closes immediately when I tap Log in. Reinstalling didn't help.", "category": "technical", "priority": "high"}
+{"subject": "Export not working", "body": "I requested a data export yesterday and still have no email. Is it stuck?", "category": "technical", "priority": "medium"}
+{"subject": "URGENT: production is down", "body": "URGENT: production is down for all users, nobody on our team can log in or load any page.", "category": "technical", "priority": "urgent"}
+{"subject": "Dark mode?", "body": "Love the app! Is there a dark mode, or is it planned?", "category": "other", "priority": "low"}
+{"subject": "Slow dashboard", "body": "The dashboard takes about 10 seconds to load today. It still works, just slow.", "category": "technical", "priority": "medium"}
+{"subject": "Someone else logged into my account", "body": "I got an email about a login from a country I've never been to, and my email address was changed. I think my account was hacked.", "category": "account", "priority": "urgent"}
+{"subject": "Forgot password", "body": "I forgot my password and the reset email never arrives. I checked spam.", "category": "account", "priority": "medium"}
+{"subject": "Lost my phone, locked out", "body": "I lost my phone with the authenticator app and I can't find my backup codes. I need access for work tomorrow.", "category": "account", "priority": "high"}
+{"subject": "Change email address", "body": "I'm moving jobs. How do I change the email on my account to my personal one?", "category": "account", "priority": "low"}
+{"subject": "Delete my account", "body": "Please delete my account and all my data.", "category": "account", "priority": "medium"}
+{"subject": "Where is my order?", "body": "I ordered 8 days ago with standard shipping and tracking hasn't updated since Monday.", "category": "shipping", "priority": "medium"}
+{"subject": "Package says delivered but it isn't here", "body": "Tracking says delivered yesterday but there's nothing at my door, and my neighbours don't have it.", "category": "shipping", "priority": "high"}
+{"subject": "Shipping to Canada", "body": "Do you ship to Canada and how long does it take?", "category": "shipping", "priority": "low"}
+{"subject": "Wrong address on order", "body": "I just placed an order and noticed the street number is wrong. It hasn't shipped yet, can you fix it?", "category": "shipping", "priority": "high"}
+{"subject": "Thanks!", "body": "Just wanted to say your support team was great last week. Keep it up.", "category": "other", "priority": "low"}
+{"subject": "Partnership inquiry", "body": "We run a newsletter with 50k readers and would like to discuss a partnership.", "category": "other", "priority": "low"}
+{"subject": "All my projects are gone", "body": "I logged in this morning and every one of my projects has disappeared. Years of work. Please help immediately.", "category": "technical", "priority": "urgent"}
+{"subject": "quick question about billing date", "body": "Hey, totally not a big deal, but can I move my billing date from the 3rd to the 15th?", "category": "billing", "priority": "low"}
+{"subject": "Double charge and app crash", "body": "Two problems: I was charged twice this month, and the Android app crashes when I open settings. The charge matters most to me.", "category": "billing", "priority": "medium"}

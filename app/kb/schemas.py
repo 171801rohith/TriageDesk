@@ -6,7 +6,13 @@ from pydantic import BaseModel, ConfigDict, Field
 
 
 class ArticleIn(BaseModel):
-    """Body of `POST /kb/articles` (FR-1)."""
+    """Body of `POST /kb/articles` (FR-1).
+
+    Whitespace is stripped before `min_length` is checked, so a blank title or
+    content is a 422 here and never reaches the service as a zero-chunk article.
+    """
+
+    model_config = ConfigDict(str_strip_whitespace=True)
 
     title: str = Field(min_length=1, max_length=200)
     category: str = Field(min_length=1, max_length=50)

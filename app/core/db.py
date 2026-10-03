@@ -20,7 +20,13 @@ NAMING_CONVENTION = {
     "pk": "pk_%(table_name)s",
 }
 
-engine = create_engine(get_settings().database_url, pool_pre_ping=True)
+# connect_timeout: fail in 5s instead of hanging when the port accepts but no
+# Postgres answers (seen with Docker Desktop when the db container is stopped).
+engine = create_engine(
+    get_settings().database_url,
+    pool_pre_ping=True,
+    connect_args={"connect_timeout": 5},
+)
 SessionLocal = sessionmaker(bind=engine, expire_on_commit=False)
 
 

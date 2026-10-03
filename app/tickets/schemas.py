@@ -80,10 +80,45 @@ class TicketOut(BaseModel):
     def from_ticket(cls, ticket: Ticket) -> TicketOut:
         """Map the ORM ticket (flat columns + runs) to the nested API shape.
 
-        TODO: build `classification` from the flat columns (language from the
-              latest run's classification JSON) and `latest_run` from `ticket.runs[-1]`.
+        `classification` comes from the latest run's stored JSON rather than the
+        flat columns: it is the only place `language` is kept, and the flat
+        columns are copies of that same run anyway (FR-15).
         """
-        raise NotImplementedError("TicketOut.from_ticket")
+        latest = ticket.runs[-1] if ticket.runs else None
+        classification = (
+            Classification.model_validate(latest.classification)
+            if latest is not None and latest.classification is not None
+            else None
+        )
+        latest_run = (
+            RunSummary(
+                id=latest.id,
+                provider=latest.provider,
+                model=latest.chat_model,
+                latency_ms=latest.latency_ms,
+                status=latest.status,
+            )
+            if latest is not None
+            else None
+        )
+        return cls(
+            id=ticket.id,
+            status=ticket.status,
+            customer_email=ticket.customer_email,
+            subject=ticket.subject,
+            body=ticket.body,
+            classification=classification,
+            draft_reply=ticket.draft_reply,
+            cited_article_ids=ticket.cited_article_ids,
+            confidence=ticket.confidence,
+            review_reasons=ticket.review_reasons,
+            final_reply=ticket.final_reply,
+            review_note=ticket.review_note,
+            reviewed_at=ticket.reviewed_at,
+            created_at=ticket.created_at,
+            updated_at=ticket.updated_at,
+            latest_run=latest_run,
+        )
 
 
 class ReviewIn(BaseModel):
@@ -95,10 +130,9 @@ class ReviewIn(BaseModel):
 
     @model_validator(mode="after")
     def _edit_requires_final_reply(self) -> ReviewIn:
-        """`edit` must carry a non-empty `final_reply` (FR-17).
-
-        TODO: raise ValueError when action == "edit" and final_reply is missing/blank.
-        """
+        """`edit` must carry a non-empty `final_reply` (FR-17) — otherwise 422."""
+        if self.action == "edit" and not (self.final_reply and self.final_reply.strip()):
+            raise ValueError("final_reply is required when action is 'edit'")
         return self
 
 

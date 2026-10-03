@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TriageDesk</title>
+    <meta name="description" content="AI-assisted support-ticket triage with human review." />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232a78d6'/%3E%3Cpath d='M9 17l5 5 9-12' fill='none' stroke='white' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"
+    />
+    <link rel="stylesheet" href="/css/app.css" />
+    <script type="module" src="/js/main.js"></script>
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="sidebar">
+        <a class="brand" href="#/tickets">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span>TriageDesk</span>
+        </a>
+        <nav class="nav" aria-label="Main">
+          <a href="#/tickets" data-nav="tickets"><span data-icon="inbox"></span>Tickets</a>
+          <a href="#/tickets/new" data-nav="new"><span data-icon="plus"></span>New ticket</a>
+          <a href="#/kb" data-nav="kb"><span data-icon="book"></span>Knowledge base</a>
+          <a href="#/insights" data-nav="insights"><span data-icon="chart"></span>Insights</a>
+        </nav>
+        <div class="sidebar-footer">
+          <div id="health" class="health" role="status" aria-live="polite">Checking…</div>
+          <a class="muted-link" href="/docs" target="_blank" rel="noopener">API docs</a>
+        </div>
+      </aside>
+      <main id="view" class="view" tabindex="-1"></main>
+    </div>
+    <div id="toasts" class="toasts" aria-live="polite" aria-atomic="false"></div>
+    <noscript>TriageDesk needs JavaScript. The API itself is documented at /docs.</noscript>
+  </body>
+</html>
